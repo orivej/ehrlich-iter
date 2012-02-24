@@ -1,0 +1,26 @@
+#+TITLE: Ehrlich iter: in vector permutations for iterate
+#+LINK: origin http://stackoverflow.com/questions/2000048/stepping-through-all-permutations-one-swap-at-a-time
+
+=in-ehrlich-permutations= is an iterate clause for iterating over all
+permutations in a vector.  Next permutation is always a single swap of
+two places in a vector.  See [[origin]] for details.
+
+* Usage
+
+#+BEGIN_SRC lisp
+(asdf:load-system :ehrlich-iter)
+
+(use-package :iterate)
+
+(iter (for i in-ehrlich-permutations "1234")
+      (collect i))
+
+(iter (for i in-ehrlich-permutations "1234" destructive t)
+      ;; destructive variant doesn't allocate new memory
+      ;; hence results must be processed immediately
+      (countint (print i)))
+#+END_SRC
+
+=in-ehrlich-permutations= is a proper generator: it can be used in
+=generating= clauses.  It doesn't support any keywords besides
+=destructive=.
